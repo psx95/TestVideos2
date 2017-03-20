@@ -1,12 +1,20 @@
 package com.psx.androidcourseproject;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,11 +37,18 @@ public class HomeFragment extends Fragment {
     ViewPagerAdapter viewPagerAdapter;
     TabLayout tabLayout;
     Toolbar toolbar;
-
+    IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
     //commit 2
-
+    BroadcastReceiver broadcastReceiver;
     public HomeFragment() {
         // Required empty public constructor
+    }
+
+    public boolean isNetwork()
+    {
+        ConnectivityManager connectivityManager= (ConnectivityManager) activity.getSystemService(activity.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork=connectivityManager.getActiveNetworkInfo();
+        return activeNetwork!=null && activeNetwork.isConnected();
     }
 
 
@@ -57,6 +72,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        activity.unregisterReceiver(broadcastReceiver);
     }
 
     // for commit
@@ -72,8 +88,8 @@ public class HomeFragment extends Fragment {
         viewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
         leftFragment = new LeftFragment();
         rightFragment = new RightFragment();
-        viewPagerAdapter.addFragment(leftFragment,"LEFT");
-        viewPagerAdapter.addFragment(rightFragment,"RIGHT");
+        viewPagerAdapter.addFragment(leftFragment,"NEW");
+        viewPagerAdapter.addFragment(rightFragment,"RECOMMENDED");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.post(new Runnable() {
             @Override
@@ -81,6 +97,22 @@ public class HomeFragment extends Fragment {
                 tabLayout.setupWithViewPager(viewPager);
             }
         });
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (isNetwork()){
+                    Snackbar.make(activity.findViewById(R.id.main_coordinator_layout),"Connected to network",Snackbar.LENGTH_SHORT).show();
+                }
+                else{
+                    Snackbar.make(activity.findViewById(R.id.main_coordinator_layout),"Unable to connect to Network. Check your connection.",Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // dismiss
+                        }
+                    }).setActionTextColor(Color.RED).show();
+                }
+            }
+        };
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -114,4 +146,11 @@ public class HomeFragment extends Fragment {
             return mFragmentTitleList.get(position);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        activity.registerReceiver(broadcastReceiver,intentFilter);
+    }
+
 }

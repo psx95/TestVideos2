@@ -16,6 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.psx.androidcourseproject.MenuFragments.Events;
+import com.psx.androidcourseproject.MenuFragments.RAW;
+import com.psx.androidcourseproject.MenuFragments.Shop;
+import com.psx.androidcourseproject.MenuFragments.SmackDownLive;
+import com.psx.androidcourseproject.MenuFragments.Superstars;
+import com.psx.androidcourseproject.MenuFragments.WWENetwork;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -30,9 +37,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
+        //actionBar.setIcon(R.drawable.ic_logo_app);
         assert actionBar!=null;
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setLogo(R.mipmap.ic_logo);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
@@ -101,6 +111,30 @@ public class MainActivity extends AppCompatActivity
                 // open the home Fragment
                 fragment = new HomeFragment();
                 title = "Home";
+                break;
+            case R.id.nav_raw :
+                fragment = new RAW();
+                title = "RAW";
+                break;
+            case R.id.nav_wwe_network :
+                fragment = new WWENetwork();
+                title = "WWE Network";
+                break;
+            case R.id.nav_shop :
+                fragment = new Shop();
+                title = "Shop";
+                break;
+            case R.id.nav_superstars :
+                fragment = new Superstars();
+                title = "Superstars";
+                break;
+            case R.id.nav_smackdown_live :
+                fragment = new SmackDownLive();
+                title = "SmackDown Live";
+                break;
+            case R.id.nav_events :
+                fragment = new Events();
+                title = "Upcoming Events";
                 break;
         }
         if (fragment!=null){

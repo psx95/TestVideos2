@@ -4,33 +4,32 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home"
             android:title="Home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_wwe_network"
+            android:icon="@drawable/ic_grid_world"
+            android:title="WWE Network" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_raw"
+            android:icon="@drawable/ic_bell"
+            android:title="Raw" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_smackdown_live"
+            android:icon="@drawable/ic_bell"
+            android:title="SmackDown Live" />
+        <item
+            android:id="@+id/nav_superstars"
+            android:icon="@drawable/ic_muscles"
+            android:title="Superstars" />
+        <item
+            android:id="@+id/nav_events"
+            android:icon="@drawable/ic_stadium"
+            android:title="Events" />
+        <item
+            android:id="@+id/nav_shop"
+            android:icon="@drawable/ic_shopping_cart"
+            android:title="Shop" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
 
 </menu>
