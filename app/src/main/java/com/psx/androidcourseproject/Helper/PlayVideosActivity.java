@@ -13,6 +13,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.psx.androidcourseproject.Config;
 import com.psx.androidcourseproject.R;
@@ -25,7 +26,7 @@ public class PlayVideosActivity extends AppCompatActivity implements  YouTubePla
     private Context context;
     private Intent intent;
     private TextView textView_title;
-    private YouTubePlayerFragment youTubePlayerView;
+    private YouTubePlayerSupportFragment youTubePlayerView;
     private String videoCode, videoTitle;
 
     @Override
@@ -45,8 +46,10 @@ public class PlayVideosActivity extends AppCompatActivity implements  YouTubePla
         actionBar.setTitle(videoTitle);
         actionBar.setLogo(R.mipmap.ic_wwe_network);
         textView_title = (TextView) findViewById(R.id.video_title_play);
-        youTubePlayerView = (YouTubePlayerFragment)getFragmentManager().findFragmentById(R.id.youtube_view);
-        youTubePlayerView.initialize(DEVELOPER_KEY,this);
+        youTubePlayerView = (YouTubePlayerSupportFragment)getSupportFragmentManager().findFragmentById(R.id.youtube_view);
+        if (youTubePlayerView!=null){
+            youTubePlayerView.initialize(DEVELOPER_KEY,this);
+        }
         textView_title.setText(videoTitle);
     }
 
