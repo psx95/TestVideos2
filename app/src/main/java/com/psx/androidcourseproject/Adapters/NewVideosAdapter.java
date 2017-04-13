@@ -22,6 +22,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 import com.psx.androidcourseproject.Config;
+import com.psx.androidcourseproject.Helper.PlayVideosActivity;
 import com.psx.androidcourseproject.R;
 import com.psx.androidcourseproject.model.VideoCard;
 
@@ -62,11 +63,14 @@ public class NewVideosAdapter extends RecyclerView.Adapter<NewVideosAdapter.Card
             public void onThumbnailLoaded(final YouTubeThumbnailView youTubeThumbnailView, String s) {
                 youTubeThumbnailView.setVisibility(View.VISIBLE);
                 holder.image_holder.setVisibility(View.GONE);
-                holder.imageButton_play.setVisibility(View.VISIBLE);
                 holder.imageButton_play.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         // play the video
+                        Intent intent = new Intent(context, PlayVideosActivity.class);
+                        intent.putExtra("video_code",videoCards.get(position).getVideo_code());
+                        intent.putExtra("video_title",videoCards.get(position).getVideo_title());
+                        context.startActivity(intent);
                     }
                 });
             }
@@ -79,9 +83,31 @@ public class NewVideosAdapter extends RecyclerView.Adapter<NewVideosAdapter.Card
 
         holder.youTubeThumbnailView.initialize(Config.DEVELOPER_KEY, new YouTubeThumbnailView.OnInitializedListener() {
             @Override
-            public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader youTubeThumbnailLoader) {
+            public void onInitializationSuccess(YouTubeThumbnailView youTubeThumbnailView, final YouTubeThumbnailLoader youTubeThumbnailLoader) {
                 youTubeThumbnailLoader.setVideo(videoCards.get(position).getVideo_code());
-                    youTubeThumbnailLoader.setOnThumbnailLoadedListener(onThumbnailLoadedListener);
+                    youTubeThumbnailLoader.setOnThumbnailLoadedListener(new YouTubeThumbnailLoader.OnThumbnailLoadedListener() {
+                        @Override
+                        public void onThumbnailLoaded(YouTubeThumbnailView youTubeThumbnailView, String s) {
+                            youTubeThumbnailView.setVisibility(View.VISIBLE);
+                            holder.image_holder.setVisibility(View.GONE);
+                            holder.imageButton_play.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    // play the video
+                                    Intent intent = new Intent(context, PlayVideosActivity.class);
+                                    intent.putExtra("video_code",videoCards.get(position).getVideo_code());
+                                    intent.putExtra("video_title",videoCards.get(position).getVideo_title());
+                                    context.startActivity(intent);
+                                }
+                            });
+                            youTubeThumbnailLoader.release();
+                        }
+
+                        @Override
+                        public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader.ErrorReason errorReason) {
+
+                        }
+                    });
                 //youTubeThumbnailLoader.setVideo(Config.YOUTUBE_VIDEO_CODE);
                 //youTubeThumbnailLoader.release();
             }

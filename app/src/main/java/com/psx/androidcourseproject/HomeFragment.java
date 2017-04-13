@@ -153,4 +153,8 @@ public class HomeFragment extends Fragment {
         activity.registerReceiver(broadcastReceiver,intentFilter);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
