@@ -33,7 +33,8 @@
             android:name=".LoginSignUpApi"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Helper.PlayVideosActivity"></activity>
+        <activity android:name=".Helper.PlayVideosActivity" />
+        <activity android:name=".Helper.DisplayNewsActivity"></activity>
     </application>
 
 </manifest>
