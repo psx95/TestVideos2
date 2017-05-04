@@ -34,7 +34,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Helper.PlayVideosActivity" />
-        <activity android:name=".Helper.DisplayNewsActivity"></activity>
+        <activity android:name=".Helper.DisplayNewsActivity" />
+        <activity
+            android:name=".Helper.DisplayPhotosActivity"
+            android:label="@string/title_activity_display_photos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Helper.DisplayEnlargedPic"></activity>
     </application>
 
 </manifest>

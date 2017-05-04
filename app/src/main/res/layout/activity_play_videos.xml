@@ -12,6 +12,7 @@
         android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
         android:id="@+id/youtube_view"
         android:layout_width="368dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"

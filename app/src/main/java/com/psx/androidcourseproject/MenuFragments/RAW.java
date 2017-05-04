@@ -5,8 +5,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -57,6 +59,7 @@ public class RAW extends Fragment {
     private List<RawVideos> rawVideosList;
     private List<RawNews> rawNewsList;
     private List<RawPhotos> rawPhotosList;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RequestQueue requestQueue;
     public static final String url = "https://www.googleapis.com/youtube/v3/search?key=AIzaSyCzQJQPSPIqnou4AwreMLlch1cr4SHf1qw&channelId=UCJ5v_MCY6GNUBTO8-D3XoAg&part=snippet&maxResults=5";
     private RawVideosAdapter rawVideosAdapter;
@@ -64,6 +67,8 @@ public class RAW extends Fragment {
     private RawPhotosAdapter rawPhotosAdapter;
     private ImageView imageView_error;
     private TextView error_message_video;
+    LinearLayoutManager linearLayoutManager;
+
     public RAW() {
         // Required empty public constructor
     }
@@ -114,11 +119,23 @@ public class RAW extends Fragment {
         imageView_error = (ImageView) appCompatActivity.findViewById(R.id.error_videos);
         error_message_video = (TextView) appCompatActivity.findViewById(R.id.error_videos_message);
         requestQueue = Volley.newRequestQueue(context);
-        new JSONFetch().execute();
+        swipeRefreshLayout = (SwipeRefreshLayout) appCompatActivity.findViewById(R.id.swipe_refresh_view_raw_videos);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // update teh recyclerview
+                Toast.makeText(context,"Check",Toast.LENGTH_SHORT).show();
+                refreshContent();
+                Log.d("REFRESH","REFRESH Finished");
+            }
+        });
+       // new JSONFetch().execute();
+
+        // finding the recycler view for videos
         recyclerView_videos = (RecyclerView) appCompatActivity.findViewById(R.id.raw_videos_rv);
         recyclerView_news = (RecyclerView) appCompatActivity.findViewById(R.id.raw_news_rv);
         recyclerView_photos = (RecyclerView) appCompatActivity.findViewById(R.id.raw_photos_rv);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager = new LinearLayoutManager(context);
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(context);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(context);
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -127,7 +144,7 @@ public class RAW extends Fragment {
         recyclerView_videos.setLayoutManager(linearLayoutManager);
         rawVideosAdapter = new RawVideosAdapter(context,rawVideosList);
         recyclerView_videos.setAdapter(rawVideosAdapter);
-        if (rawVideosList.size()>0){
+       /* if (rawVideosList.size()>0){
             recyclerView_videos.setVisibility(View.VISIBLE);
             imageView_error.setVisibility(View.INVISIBLE);
             error_message_video.setVisibility(View.INVISIBLE);
@@ -136,7 +153,9 @@ public class RAW extends Fragment {
             recyclerView_videos.setVisibility(View.INVISIBLE);
             imageView_error.setVisibility(View.VISIBLE);
             error_message_video.setVisibility(View.VISIBLE);
-        }
+        }*/
+        imageView_error.setVisibility(View.VISIBLE);
+        error_message_video.setVisibility(View.VISIBLE);
         // add the news adapter
         recyclerView_news.setLayoutManager(linearLayoutManager1);
         generateSampleNews();
@@ -146,6 +165,25 @@ public class RAW extends Fragment {
         generateSamplePhotos();
         rawPhotosAdapter = new RawPhotosAdapter(rawPhotosList,context);
         recyclerView_photos.setAdapter(rawPhotosAdapter);
+    }
+
+    public void refreshContent (){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                rawVideosList.clear();
+                populateCards();
+                //cards.clear();
+                // makeJSONArrayRequest();
+                rawVideosAdapter = new RawVideosAdapter(context,rawVideosList);
+                recyclerView_videos.setAdapter(rawVideosAdapter);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        },4000);
+    }
+
+    public void populateCards (){
+        new JSONFetch().execute();
     }
 
     @Override
@@ -219,9 +257,10 @@ public class RAW extends Fragment {
                 recyclerView_videos.setVisibility(View.VISIBLE);
                 imageView_error.setVisibility(View.INVISIBLE);
                 error_message_video.setVisibility(View.INVISIBLE);
+                recyclerView_videos.setLayoutManager(linearLayoutManager);
                 rawVideosAdapter = new RawVideosAdapter(context,rawVideosList);
-                rawVideosAdapter.notifyDataSetChanged();
                 recyclerView_videos.setAdapter(rawVideosAdapter);
+                //rawVideosAdapter.notifyDataSetChanged();
             }
             else {
                 Log.d("RAW","cards were null");

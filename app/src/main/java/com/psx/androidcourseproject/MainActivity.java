@@ -1,5 +1,7 @@
 package com.psx.androidcourseproject;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +24,8 @@ import com.psx.androidcourseproject.MenuFragments.Shop;
 import com.psx.androidcourseproject.MenuFragments.SmackDownLive;
 import com.psx.androidcourseproject.MenuFragments.Superstars;
 import com.psx.androidcourseproject.MenuFragments.WWENetwork;
+
+import java.net.URI;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -116,22 +120,24 @@ public class MainActivity extends AppCompatActivity
                 fragment = new RAW();
                 title = "RAW";
                 break;
-            case R.id.nav_wwe_network :
+            /*case R.id.nav_wwe_network :
                 fragment = new WWENetwork();
                 title = "WWE Network";
-                break;
+                break;*/
             case R.id.nav_shop :
-                fragment = new Shop();
-                title = "Shop";
+                /*fragment = new Shop();
+                title = "Shop";*/
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.shop.wwe.com/"));
+                startActivity(intent);
                 break;
             case R.id.nav_superstars :
                 fragment = new Superstars();
                 title = "Superstars";
                 break;
-            case R.id.nav_smackdown_live :
+            /*case R.id.nav_smackdown_live :
                 fragment = new SmackDownLive();
                 title = "SmackDown Live";
-                break;
+                break;*/
             case R.id.nav_events :
                 fragment = new Events();
                 title = "Upcoming Events";

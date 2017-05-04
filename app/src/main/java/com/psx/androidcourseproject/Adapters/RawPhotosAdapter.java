@@ -1,12 +1,14 @@
 package com.psx.androidcourseproject.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.psx.androidcourseproject.Helper.DisplayPhotosActivity;
 import com.psx.androidcourseproject.R;
 import com.psx.androidcourseproject.model.RawPhotos;
 
@@ -36,6 +38,13 @@ public class RawPhotosAdapter extends RecyclerView.Adapter<RawPhotosAdapter.MyPh
     @Override
     public void onBindViewHolder(MyPhotosViewHolder holder, int position) {
         holder.imageView_holder.setImageResource(rawPhotosList.get(position).getImage_id());
+        holder.imageView_holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DisplayPhotosActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

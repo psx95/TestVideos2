@@ -6,18 +6,18 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
             android:title="Home" />
-        <item
+        <!--<item
             android:id="@+id/nav_wwe_network"
             android:icon="@drawable/ic_grid_world"
-            android:title="WWE Network" />
+            android:title="WWE Network" />-->
         <item
             android:id="@+id/nav_raw"
             android:icon="@drawable/ic_bell"
             android:title="Raw" />
-        <item
+        <!--<item
             android:id="@+id/nav_smackdown_live"
             android:icon="@drawable/ic_bell"
-            android:title="SmackDown Live" />
+            android:title="SmackDown Live" />-->
         <item
             android:id="@+id/nav_superstars"
             android:icon="@drawable/ic_muscles"
